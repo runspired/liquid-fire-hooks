@@ -9,7 +9,7 @@ function hasChild(component) {
 }
 
 function getFirstChild(component) {
-  return component._childViews && component._childViews.length ? component._childViews[0] : null;
+  return component && component._childViews && component._childViews.length ? component._childViews[0] : null;
 }
 
 function isComponent(component) {
@@ -27,5 +27,5 @@ export default function componentFinder(lfWrapper) {
   while (!isComponent(component) && (curDepth++ <= maxDepth) && hasChild(component)) {
     component = getFirstChild(component);
   }
-  return component;
+  return isComponent(component) ? component : null;
 }
