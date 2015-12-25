@@ -1,6 +1,6 @@
 {
   "name": "liquid-fire-hooks",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "didAnimateTransition hook for liquid-fire transitions",
   "directories": {
     "doc": "doc",
