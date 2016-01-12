@@ -1,6 +1,7 @@
-Liquid Fire Hooks [![npm version](https://badge.fury.io/js/liquid-fire-hooks.svg)](http://badge.fury.io/js/liquid-fire-hooks)
+Liquid Fire Hooks
 =================
 
+[![npm version](https://badge.fury.io/js/liquid-fire-hooks.svg)](http://badge.fury.io/js/liquid-fire-hooks)
 [![Build Status](https://travis-ci.org/runspired/liquid-fire-hooks.svg?branch=master)](https://travis-ci.org/runspired/liquid-fire-hooks)
 [![Ember Observer Score](http://emberobserver.com/badges/liquid-fire-hooks.svg)](http://emberobserver.com/addons/liquid-fire-hooks)
 
