@@ -5,8 +5,8 @@ Liquid Fire Hooks
 [![Build Status](https://travis-ci.org/runspired/liquid-fire-hooks.svg?branch=master)](https://travis-ci.org/runspired/liquid-fire-hooks)
 [![Ember Observer Score](http://emberobserver.com/badges/liquid-fire-hooks.svg)](http://emberobserver.com/addons/liquid-fire-hooks)
 
-Liquid-fire-hooks provides a `didAnimateTransition` component hook that is triggered on the closest
-component within the inserted DOM when a liquid-fire transition completes.
+Liquid-fire-hooks provides component hooks for transitions that are triggered on the closest
+component within both the removed and inserted content during a liquid-fire transition.
 
 ## Support, Questions, Collaboration
 
@@ -27,9 +27,23 @@ Join the [liquid-fire](https://embercommunity.slack.com/messages/liquid-fire/) c
 
 This will run the default blueprint which additionally installs `liquid-fire`.
 
-### didAnimateTransition
+## Hooks
 
-By default, only transitions utilizing the `default` transition will have `didAnimateTransition` triggered,
+#### Available Hooks
+
+- willAnimate *(liquid-fire-tweenlite only)*
+- willAnimateIn *(liquid-fire-tweenlite only)*
+- willAnimateOut *(liquid-fire-tweenlite only)*
+- didAnimate
+- didAnimateIn
+- didAnimateOut
+
+> On default `liquid-fire` transitions, `didAnimate`/`didAnimateIn`/`didAnimateOut` will all fire once
+> the entire transition has completed.  On `liquid-fire-tweenlite`, these will fire at more appropriate times
+> e.g. when the old/new content has completed animating for In/Out and only after the entire transition
+> is done for `didAnimate`.
+
+By default, only transitions utilizing the `default` transition will have hooks triggered,
 to have a specific transition trigger the hook, you will need to use the `with-hook` transition.
 
 How to use the `with-hook`
@@ -42,8 +56,31 @@ export default function() {
 }
 ```
 
-The component will call the component's `didAnimateTransition` method first, if present. It will then trigger
-the `didAnimateTransition` event on the component.
+> NB: If you are using `liquid-fire-tweenlite`,
+> you will need to configure the `default` transition to add the hooks yourself.
+
+For each hook, if your component implements a method matching the hook name, it will be invoked first,
+ then the hook will be triggered as an `event` on your component.
+
+e.g. for `didAnimateIn`
+
+```js
+Component.extend({
+
+  // use the hook directly
+  didAnimateIn() {
+   ...
+  },
+  
+  // use it 'event-style'
+  onDidAnimate: on('didAnimateIn', function() {
+   ...
+  })
+
+});
+```
+
+
 
 ## Contributing
 
