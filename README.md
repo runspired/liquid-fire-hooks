@@ -31,12 +31,14 @@ This will run the default blueprint which additionally installs `liquid-fire`.
 
 #### Available Hooks
 
+These are the available hooks, in roughly the order they would fire.
+
 - willAnimate *(liquid-fire-tweenlite only)*
 - willAnimateIn *(liquid-fire-tweenlite only)*
 - willAnimateOut *(liquid-fire-tweenlite only)*
-- didAnimate
-- didAnimateIn
 - didAnimateOut
+- didAnimateIn
+- didAnimate
 
 > On default `liquid-fire` transitions, `didAnimate`/`didAnimateIn`/`didAnimateOut` will all fire once
 > the entire transition has completed.  On `liquid-fire-tweenlite`, these will fire at more appropriate times

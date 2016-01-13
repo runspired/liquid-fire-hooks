@@ -30,8 +30,8 @@ export default function withHookTransition(delegateTo, ...args) {
 
 function willAnimateTransition(infos) {
   fireHook.call(this, 'oldView', 'willAnimate');
-  fireHook.call(this, 'oldView', 'willAnimateOut');
   fireHook.call(this, 'newView', 'willAnimate');
+  fireHook.call(this, 'oldView', 'willAnimateOut');
   fireHook.call(this, 'newView', 'willAnimateIn');
 
   return infos;
