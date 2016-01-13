@@ -2,6 +2,7 @@ import getComponent from '../utils/component-finder';
 import Ember from 'ember';
 
 const {
+  deprecate,
   deprecateFunc
   } = Ember;
 
@@ -10,7 +11,6 @@ export default function withHookTransition(delegateTo, ...args) {
 
   const didAnimateTransitionIn = fireHook.bind(this, 'newView', 'didAnimateIn');
   const didAnimateTransitionOut = fireHook.bind(this, 'oldView', 'didAnimateOut');
-
 
   // are we dealing with a TransitionPromise?
   if (transition.animateIn) {
@@ -49,12 +49,13 @@ function fireComponentHook(component, hook) {
     if (component[hook]) {
       component[hook]();
     } else if (hook === 'didAnimateIn' && component.didAnimateTransition) {
-      const fn = deprecateFunc("Component.didAnimateTransition is deprecated, please use Component.didAnimateIn", component.didAnimateTransition);
+      const fn = deprecateFunc(`[liquid-fire-hooks] component.didAnimateTransition is deprecated, please use \`Component.didAnimateIn\` instead.`, component.didAnimateTransition);
       fn();
     }
     if (component.trigger) {
       component.trigger(hook);
-      if (hook === 'didAnimateIn') {
+      if (hook === 'didAnimateIn' && component.has('didAnimateIn')) {
+        deprecate(`[liquid-fire-hooks] event:didAnimateTransition is deprecated, please use \`didAnimateIn\` instead.`, true);
         component.trigger('didAnimateTransition');
       }
     }
