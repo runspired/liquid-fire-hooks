@@ -4,12 +4,21 @@ const {
   get
   } = Ember;
 
+function getChildViews(component) {
+  const childViewsKey = component._childViews ? '_childViews' : 'childViews';
+  return component[childViewsKey];
+}
+
 function hasChild(component) {
-  return component && component._childViews && component._childViews.length;
+  if (!component) {
+    return false;
+  }
+
+  return getChildViews(component) && getChildViews(component).length;
 }
 
 function getFirstChild(component) {
-  return component && component._childViews && component._childViews.length ? component._childViews[0] : null;
+  return hasChild(component) ? getChildViews(component)[0] : null;
 }
 
 function isComponent(component) {
@@ -27,5 +36,6 @@ export default function componentFinder(lfWrapper) {
   while (!isComponent(component) && (curDepth++ <= maxDepth) && hasChild(component)) {
     component = getFirstChild(component);
   }
+
   return isComponent(component) ? component : null;
 }
