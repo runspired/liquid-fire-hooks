@@ -1,66 +1,58 @@
 import componentFinder from '../../../utils/component-finder';
 import { module, test } from 'qunit';
 
-module('Unit | Utility | component finder');
+module('Unit | Utility | component finder | Pre-2.0', {
+  setup() {
+    this.lfWrapper = { _childViews: [] };
+    this.topLevel = { _childViews: [], isVirtual: true, element: false };
+    this.midLevel = { _childViews: [], element: true };
 
-test('Pre-2.0', function(assert) {
+    this.addChildView = (parent, child) => {
+      parent._childViews.push(child);
+    };
+  }
+});
+
+function sharedComponentExamples(assert) {
   assert.expect(6);
 
   let result = componentFinder();
   assert.equal(result, null, 'Returns null when nothing is there.');
 
-  const lfWrapper = { _childViews: [] };
-  result = componentFinder(lfWrapper);
+  result = componentFinder(this.lfWrapper);
   assert.equal(result, null, 'Returns null when no component or element is found');
 
-  const topLevel = { _childViews: [], isVirtual: true, element: false };
-  lfWrapper._childViews.push(topLevel);
-  result = componentFinder(lfWrapper);
+  this.addChildView(this.lfWrapper, this.topLevel);
+  result = componentFinder(this.lfWrapper);
   assert.equal(result, null, 'Returns null when view is virtual and unflagged');
 
-  const midLevel = { _childViews: [], element: true };
-  topLevel._childViews.push(midLevel);
+  this.addChildView(this.topLevel, this.midLevel);
 
-  result = componentFinder(lfWrapper);
-  assert.equal(result, midLevel);
+  result = componentFinder(this.lfWrapper);
+  assert.equal(result, this.midLevel);
 
-  midLevel.isComponent = true;
-  midLevel.element = false;
-  result = componentFinder(lfWrapper);
-  assert.equal(result, midLevel);
+  this.midLevel.isComponent = true;
+  this.midLevel.element = false;
+  result = componentFinder(this.lfWrapper);
+  assert.equal(result, this.midLevel);
 
-  topLevel.isComponent = true;
-  result = componentFinder(lfWrapper);
-  assert.equal(result, topLevel);
+  this.topLevel.isComponent = true;
+  result = componentFinder(this.lfWrapper);
+  assert.equal(result, this.topLevel);
+}
+
+test('Pre-2.0', sharedComponentExamples);
+
+module('Unit | Utility | component finder | 2.0+', {
+  setup() {
+    this.lfWrapper = { childViews: [] };
+    this.topLevel = { childViews: [], isVirtual: true, element: false };
+    this.midLevel = { childViews: [], element: true };
+
+    this.addChildView = (parent, child) => {
+      parent.childViews.push(child);
+    };
+  }
 });
 
-test('2.0+', function(assert) {
-  assert.expect(6);
-
-  let result = componentFinder();
-  assert.equal(result, null, 'Returns null when nothing is there.');
-
-  const lfWrapper = { childViews: [] };
-  result = componentFinder(lfWrapper);
-  assert.equal(result, null, 'Returns null when no component or element is found');
-
-  const topLevel = { childViews: [], isVirtual: true, element: false };
-  lfWrapper.childViews.push(topLevel);
-  result = componentFinder(lfWrapper);
-  assert.equal(result, null, 'Returns null when view is virtual and unflagged');
-
-  const midLevel = { childViews: [], element: true };
-  topLevel.childViews.push(midLevel);
-
-  result = componentFinder(lfWrapper);
-  assert.equal(result, midLevel);
-
-  midLevel.isComponent = true;
-  midLevel.element = false;
-  result = componentFinder(lfWrapper);
-  assert.equal(result, midLevel);
-
-  topLevel.isComponent = true;
-  result = componentFinder(lfWrapper);
-  assert.equal(result, topLevel);
-});
+test('2.0+', sharedComponentExamples);
