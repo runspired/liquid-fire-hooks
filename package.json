@@ -39,7 +39,9 @@
     "ember-export-application-global": "^1.0.5",
     "ember-resolver": "^2.0.3",
     "ember-try": "0.0.8",
-    "liquid-fire-tweenlite": "1.0.1"
+    "ember-tweenlite": "1.0.1",
+    "liquid-fire": "0.24.1",
+    "liquid-fire-tweenlite": "1.0.4"
   },
   "keywords": [
     "ember-addon",
