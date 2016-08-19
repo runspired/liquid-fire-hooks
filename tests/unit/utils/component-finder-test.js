@@ -10,17 +10,17 @@ test('Basic Tests', function(assert) {
   let result = componentFinder();
   assert.equal(result, null, 'Returns null when nothing is there.');
 
-  const lfWrapper = { _childViews: [] };
+  const lfWrapper = { childViews: [] };
   result = componentFinder(lfWrapper);
   assert.equal(result, null, 'Returns null when no component or element is found');
 
-  const topLevel = { _childViews: [], isVirtual: true, element: false };
-  lfWrapper._childViews.push(topLevel);
+  const topLevel = { childViews: [], isVirtual: true, element: false };
+  lfWrapper.childViews.push(topLevel);
   result = componentFinder(lfWrapper);
   assert.equal(result, null, 'Returns null when view is virtual and unflagged');
 
-  const midLevel = { _childViews: [], element: true };
-  topLevel._childViews.push(midLevel);
+  const midLevel = { childViews: [], element: true };
+  topLevel.childViews.push(midLevel);
 
   result = componentFinder(lfWrapper);
   assert.equal(result, midLevel);
