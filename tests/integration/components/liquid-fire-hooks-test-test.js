@@ -32,34 +32,62 @@ test('it renders', function(assert) {
     this.registry.register( 'component:mock-component',
         Ember.Component.extend({
             layoutName: 'mock-template',
-
+            didAnimate(){
+               this.set('onDidAnimate', true);
+            },
+            didAnimateOut (){
+              this.set('onDidAnimateOut', true);
+            },
             didAnimateIn() {
-              console.log('Did animate in');
+              this.set('onDidAnimateIn', true);         
             },
-            didInsertElement () {
-              console.log('didInsert');
-            },
-            // // use it 'event-style'
-            onDidAnimate: Ember.on('didAnimateIn', function() {
-              console.log('Did animate in event');
+            fooOnDidAnimate: Ember.on('didAnimateIn', function() {
+              this.set('fooDidAnimateInEvent', true);
             }),
             willAnimate() {
-              console.log('will animate');
+              this.set('onWillAnimate', true);
+            },
+            willAnimateIn(){
+               this.set('onWillAnimateIn', true);
+            },
+            willAnimateOut(){
+               this.set('onWillAnimateOut', true);
             }
+
         })
     );
     this.set( 'visible', false );
+
+    this.set('onDidAnimateIn', false);
+    this.set('onWillAnimate', false);
+    this.set('fooDidAnimateInEvent', false);
+    this.set('onWillAnimateIn', false);
+    this.set('onWillAnimateOut', false);
+    this.set('onDidAnimateOut', false);
+    this.set('onDidAnimate', false);
+    
     this.render(hbs `
     {{#liquid-if visible class='mock'}}
-      {{mock-component}}
+      {{mock-component onDidAnimateIn=onDidAnimateIn  onWillAnimate=onWillAnimate fooDidAnimateInEvent=fooDidAnimateInEvent onWillAnimateIn=onWillAnimateIn onWillAnimateOut=onWillAnimateOut onDidAnimateOut=onDidAnimateOut onDidAnimate=onDidAnimate}}
     {{/liquid-if}}
     `);
+
+    this.set('visible', true );   
+    assert.ok(this.get('onWillAnimate'), 'onWillAnimate');
+
     var context = this;
-    setTimeout(function (){
-      context.set('visible', true );   
-      assert.equal(context.$().length, 1);
-      done();
-    }, 1000);
+    Ember.run.later(function () {
+      assert.ok(context.get('onDidAnimateIn'), 'onDidAnimateIn');
+      assert.ok(context.get('fooDidAnimateInEvent'), 'fooDidAnimateInEvent');
+      assert.ok(context.get('onWillAnimateIn'), 'willAnimateIn');
+      assert.ok(context.get('onDidAnimate'), 'didAnimate');
+      context.set('visible', false );        
+      Ember.run.later(function (){
+        assert.ok(context.get('onWillAnimateOut'), 'willAnimateOut');
+        assert.ok(context.get('onDidAnimateOut'), 'didAnimateOut');
+        done();      
+      }, 2000);
+    }, 3000);
 
     return tmap.waitUntilIdle();
 });
