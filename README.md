@@ -3,15 +3,14 @@ Liquid Fire Hooks [![npm version](https://badge.fury.io/js/liquid-fire-hooks.svg
 
 [![Build Status](https://travis-ci.org/runspired/liquid-fire-hooks.svg?branch=master)](https://travis-ci.org/runspired/liquid-fire-hooks)
 [![Ember Observer Score](http://emberobserver.com/badges/liquid-fire-hooks.svg)](http://emberobserver.com/addons/liquid-fire-hooks)
+[![Discord](https://img.shields.io/discord/480462759797063690.svg?logo=discord)](https://discord.gg/zT3asNS)
 
 Liquid-fire-hooks provides a `didAnimateTransition` component hook that is triggered on the closest
 component within the inserted DOM when a liquid-fire transition completes.
 
 ## Support, Questions, Collaboration
 
-Join the [liquid-fire](https://embercommunity.slack.com/messages/liquid-fire/) channel on Slack.
-
-[![Slack Status](https://ember-community-slackin.herokuapp.com/badge.svg)](https://ember-community-slackin.herokuapp.com/)
+Join the Ember Community on [discord](https://discord.gg/zT3asNS)
 
 ### Status
 
